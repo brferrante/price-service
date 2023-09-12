@@ -6,7 +6,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +46,9 @@ public class PriceControllerIntegrationTests {
                                       Long productId, String startDateTime) {
         setUpTestDataOnH2();
 
-        // Create a new requestDateTime and startDateTime based on the provided test data
         LocalDateTime requestDate = LocalDateTime.parse(startDateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        // Assert that the expected price matches the calculated price
+        // Assert that the expected price matches the calculated price, valid scenarios with data ara for brandId 1
         if (brandId.equals(1L)){
             Assertions.assertEquals(expectedPrice, priceService.getPriceByProductAndDate(productId, requestDate, brandId).get().getPrice());
         } else {
@@ -82,7 +80,7 @@ public class PriceControllerIntegrationTests {
                 priceEntity.setProductId(productId);
                 priceEntity.setStartDate(LocalDateTime.parse(startDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
-                // Save the Price entity to the database using the PriceRepository
+                // Save the Price entity to the database using the PriceService
                 priceService.save(priceEntity);
 
             }
