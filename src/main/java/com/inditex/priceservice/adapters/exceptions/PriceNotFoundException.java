@@ -1,4 +1,4 @@
-package com.inditex.priceservice.domain.exceptions;
+package com.inditex.priceservice.adapters.exceptions;
 
 public class PriceNotFoundException extends RuntimeException {
     public PriceNotFoundException(String message) {

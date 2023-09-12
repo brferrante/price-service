@@ -3,11 +3,13 @@ package com.inditex.priceservice;
 import com.inditex.priceservice.adapters.config.JacksonConfigurartion;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @Import(JacksonConfigurartion.class)
+@ComponentScan(basePackages = "com.inditex.priceservice")
 @EnableSwagger2
 public class PriceServiceApplication {
 

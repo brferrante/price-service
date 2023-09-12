@@ -15,13 +15,11 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Collections;
+import java.util.Optional;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
@@ -31,10 +29,9 @@ public class PriceControllerTest {
 
     @MockBean
     private PriceService priceService;
-
     @ParameterizedTest
     @CsvSource({
-            "2020-06-14T10:00:00,35455,1,35.50,EUR", // Test Scenario 1
+            "2020-06-14T10:00:00,35455,0,35.50,EUR", // Test Scenario 1
             "2020-06-14T16:00:00,35455,1,25.45,EUR", // Test Scenario 2
             "2020-06-14T21:00:00,35455,1,35.50,EUR", // Test Scenario 3
             "2020-06-15T10:00:00,35455,1,30.50,EUR", // Test Scenario 4
@@ -54,7 +51,7 @@ public class PriceControllerTest {
                 .curr(expectedCurrency)
                 .build();
 
-        when(priceService.getPriceByProductAndDate(productId, requestDateTimeParsed)).thenReturn(Collections.singletonList(price));
+        when(priceService.getPriceByProductAndDate(productId, requestDateTimeParsed, brandId)).thenReturn(Optional.ofNullable(price));
 
         ResultActions resultActions = mockMvc.perform(get("/api/getPrice")
                         .param("applicationDate", requestDateTime)
@@ -77,4 +74,5 @@ public class PriceControllerTest {
             resultActions.andExpect(content().string(""));
         }
     }
+
 }
